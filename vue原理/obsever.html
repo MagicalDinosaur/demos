@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var data = {
+            num: 2
+        }
+
+        function defineReactive(obj, key, val) {
+            Object.defineProperty(obj, key, {
+                enumerable: true,
+                configurable: true,
+                get: function () {
+                    return val
+                },
+                set: function (newval) {
+                    if (newval == val) return;
+                    cb(key, newval);
+                }
+            })
+        }
+
+        function observer(data) {
+            Object.keys(data).forEach((key) => {
+                defineReactive(vale, key, data[key])
+            })
+        }
+
+        // 数据更新时的回调数据
+        function cb(key, val) {
+            /* 渲染视图 */
+            console.log("属性：" + key + "更新为：" + val);
+        }
+
+        observer(data);
+        data.num=3;
+
+    </script>
+</body>
+
+</html>

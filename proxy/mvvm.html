@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input id='input' type="text" model="a">
+    <div id="test" adang="adang"></div>
+    <script>
+        let viewModel = {
+            a: "111"
+        }
+        let handler = {
+            set: function (obj, prop, newValue) {
+                let oldValue = obj[prop]
+                if (oldValue != newValue) {
+                    console.log(`${prop} is changing from ${oldValue} to ${newValue}`)
+                    // setValue(prop)
+                    obj[prop] = newValue
+                }
+
+            }
+        }
+        viewModel = new Proxy(viewModel, handler)
+
+
+        let modelElements = document.querySelectorAll('[model]');
+        
+        function init() {
+            modelElements.forEach(element => {
+                let prop = element.getAttribute('model')
+                if (prop in viewModel) {
+                    element.value = viewModel[prop]
+                    element.addEventListener('keyup', function () {
+                        viewModel[prop] = element.value
+                    })
+                }
+            })
+        }
+
+        function setValue(prop) {
+            modelElements.forEach(element => {
+                if (element.getAttribute('model') === prop) {
+                    viewModel[prop] = element.value
+                }
+            })
+        }
+
+        init()
+
+        setTimeout(() => {
+            viewModel.a = 233
+        }, 1000)
+    </script>
+</body>
+
+</html>

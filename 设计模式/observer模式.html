@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 创建构造函数
+        function Observer() {
+            //创建观察者数组
+            this.observerList = [];
+        }
+        Observer.prototype.on = function (obj) {
+            this.observerList.push(obj);
+        }
+        Observer.prototype.emit = function () {
+            // 遍历数组所有的观察者并执行操作
+            this.observerList.forEach(obj => {
+                obj.apply(this, arguments)
+            })
+        }
+        // 清除绑定，清楚某个绑定直接对数组进行增删操作，这里不一一列举
+        Observer.prototype.clean = function (obj) {
+            this.observerList = [];
+        }
+
+        var ob = new Observer();
+        ob.on(function (name) {
+            console.log("你的名字是" + name)
+        })
+        ob.on(function (year) {
+            console.log("你的年纪" + year)
+        })
+        ob.emit('Dan')
+        ob.emit(6)
+        ob.clean()
+        ob.emit('Danny', 23)
+
+        /** 
+         * 输出：
+         * 你的名字是Dan
+         * 你的年纪Dan
+         * 你的名字是6
+         * 你的年纪6
+        */
+
+        // 创建构造函数
+        function Observer2() {
+            //创建观察者数组
+            this.observerList = [];
+        }
+        Observer2.prototype.on = function (key, obj) {
+            if (!this.observerList[key]) {
+                this.observerList[key] = []
+            }
+            this.observerList[key].push(obj);
+        }
+        Observer2.prototype.emit = function () {
+            var oKey = Array.prototype.shift.apply(arguments);
+            // 遍历数组所有的观察者并执行操作
+            this.observerList[oKey].forEach(obj => {
+                obj.apply(this, arguments)
+            })
+        }
+        // 清除绑定，清楚某个绑定直接对数组进行增删操作，这里不一一列举
+        Observer2.prototype.clean = function (obj) {
+            this.observerList = [];
+        }
+
+        var ob2 = new Observer2();
+
+        ob2.on('buy', function (shop) {
+            console.log("购买：" + shop);
+        })
+
+        ob2.on('sale', function (shop) {
+            console.log('售卖：' + shop)
+        })
+
+        ob2.emit('buy', "冰激凌")
+        ob2.emit('sale', "西瓜")
+
+    </script>
+</body>
+
+</html>

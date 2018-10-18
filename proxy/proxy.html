@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <input id='item-1' name="sex" value="male">
+    </form>
+    <script>
+        /*
+            let p = new Proxy(target, handler);
+            target：包装的目标对象（可以是任何类型的对象，包括原生数组，函数，甚至另一个代理）
+            handler：一个对象，其属性是当执行一个操作时定义代理的行为的函数。
+        */
+        let handler = {
+            get: function (target, name) {
+                // console.log(target, name);
+                return 20
+            },
+            set: function (obj, prop, value) {
+                // console.log(obj, prop, value)
+            }
+        }
+
+        let p = new Proxy({}, handler);
+
+        p.a = 1
+        console.log(p.a);
+
+        let products = new Proxy({
+            arr: ['a', 'b', 'c']
+        }, {
+                get: function (obj, prop) {
+                    if (prop == 'last') {
+                        return obj.arr[obj.arr.length - 1]
+                    } else {
+                        return obj[prop]
+                    }
+                },
+                set: function (obj, prop, val) {
+                    if (prop == 'last') {
+                        obj.arr.push(val)
+                        return;
+                    }
+                    if (typeof val === 'string') {
+                        val = [val];
+                    }
+                    obj[prop] = val;
+                }
+            })
+        console.log(products.arr)
+        products.arr = 'd'
+        console.log(products.arr)
+        products.last = 'e'
+        console.log(products.arr)
+        console.log(products.last)
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

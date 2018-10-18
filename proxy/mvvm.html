@@ -20,10 +20,9 @@
                 let oldValue = obj[prop]
                 if (oldValue != newValue) {
                     console.log(`${prop} is changing from ${oldValue} to ${newValue}`)
-                    // setValue(prop)
                     obj[prop] = newValue
+                    setValue(prop)
                 }
-
             }
         }
         viewModel = new Proxy(viewModel, handler)
@@ -46,7 +45,7 @@
         function setValue(prop) {
             modelElements.forEach(element => {
                 if (element.getAttribute('model') === prop) {
-                    viewModel[prop] = element.value
+                    element.value= viewModel[prop]
                 }
             })
         }

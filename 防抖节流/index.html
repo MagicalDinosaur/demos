@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            /* overflow: auto; */
+        }
+
+        #bar {
+            background: linear-gradient(#aaa, red);
+            width: 100%;
+            height: 6000px;
+        }
+    </style>
+</head>
+
+<body onscroll="throttle">
+    <div id="bar" class="scorll"></div>
+    <input id="inputText" onchange="changeText" type="text">
+    <div id="showText"></div>
+</body>
+<script>
+    window.addEventListener('scroll', debounce(() => console.log('触发了滚动事件'), 100))
+
+    // Throttle 节流函数
+    function throttle(fn, interval) {
+        let lastTime, that = this;
+        console.log('xxx')
+        return function () {
+            let nowTime = new Date().getTime()
+            console.log(lastTime)
+            if (nowTime - lastTime > 500) {
+                // fn.call(that, ...arguments);
+                console.log('666')
+                lastTime = nowTime
+            }
+        }
+    }
+
+    function debounce(fn, delay) {
+        let timeout;
+        return function () {
+            let self = this, args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                fn.call(self, ...args)
+            },delay)
+        }
+    }
+
+    // function debounce(fn, delay) {
+    //     // 定时器
+    //     let timer = null
+
+    //     // 将debounce处理结果当作函数返回
+    //     return function () {
+    //         // 保留调用时的this上下文
+    //         let context = this
+    //         // 保留调用时传入的参数
+    //         let args = arguments
+
+    //         // 每次事件被触发时，都去清除之前的旧定时器
+    //         if (timer) {
+    //             clearTimeout(timer)
+    //         }
+    //         // 设立新定时器
+    //         timer = setTimeout(function () {
+    //             fn.apply(context, args)
+    //         }, delay)
+    //     }
+    // }
+
+
+</script>
+
+</html>

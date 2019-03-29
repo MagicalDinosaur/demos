@@ -29,20 +29,38 @@
     <div id="showText"></div>
 </body>
 <script>
-    window.addEventListener('scroll', debounce(() => console.log('触发了滚动事件'), 100))
+    // window.addEventListener('scroll', debounce(() => console.log('触发了滚动事件'), 100))
+    window.addEventListener('scroll', throttle(() => console.log('触发了滚动事件'), 600,600));
 
-    // Throttle 节流函数
-    function throttle(fn, interval) {
-        let lastTime, that = this;
-        console.log('xxx')
+    function throttle(fn, interval,delay) {
+        let lastTime=0, timer;
         return function () {
-            let nowTime = new Date().getTime()
-            console.log(lastTime)
+            let nowTime = new Date().getTime();
+            let that = this,args = arguments;
             if (nowTime - lastTime > 500) {
-                // fn.call(that, ...arguments);
-                console.log('666')
+                fn.call(that, ...args);
                 lastTime = nowTime
             }
+        }
+    }
+
+
+    // Throttle 节流函数
+    function throttleMore(fn, interval,delay) {
+        let lastTime=0, timer;
+        return function () {
+            let nowTime = new Date().getTime();
+            let that = this,args = arguments;
+            if (nowTime - lastTime > 500) {
+                fn.call(that, ...args);
+                lastTime = nowTime
+            } else {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    fn.call(self, ...args)
+                }, delay)
+            }
+
         }
     }
 
@@ -53,9 +71,11 @@
             clearTimeout(timeout);
             timeout = setTimeout(() => {
                 fn.call(self, ...args)
-            },delay)
+            }, delay)
         }
     }
+
+
 
     // function debounce(fn, delay) {
     //     // 定时器

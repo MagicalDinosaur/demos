@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    setTimeout(function(){
+        for(var i = 0; i < 10; i++){console.log('***')}
+        console.log( 'timer a');
+    },0)
+    for(var j = 0; j < 5; j++){
+        console. log(j);
+    }
+    setTimeout(function(){
+        console.log( 'timer b');
+    }, 0)
+    function waitFiveSeconds(){
+        var now = (new Date()).getTime();
+        while(((new Date().getTime() - now)) < 5000){}
+        console. log('finished waiting');
+    }
+    document.addEventListener('click', function(){
+        console.log( 'click' );
+    })
+    console. log('click begin');
+    waitFiveSeconds() ;    
+    </script>
+</body>
+</html>

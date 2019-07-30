@@ -1,20 +1,16 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-      <!-- <div v-for="(item,index) of list" :key="item.id">
-        <p>{{item.num}}</p>
-        <input type="text" v-model="item.num"> 
-        <button @click="remove(index)">delete</button>
-      </div>
-      <button @click="add()">add</button> -->
-      <transition name="bomb" mode="out-in">
-        <span :key="msg">{{msg}}</span>
-      </transition>
-      <input class="input" type="text" v-model="msg">
+    <img src="./assets/logo.png" />
+    <transition name="bomb" mode="out-in">
+      <span :key="msg">{{msg}}</span>
+    </transition>
+    <input class="input" type="text" v-model="msg" />
   </div>
 </template>
 
 <script>
+// 安装了 worker-loader
+import Worker from "./utils/file.worker.js";
 export default {
   name: "app",
   data() {
@@ -24,14 +20,15 @@ export default {
       list: [{ id: 1, num: 1 }, { id: 2, num: 2 }, { id: 3, num: 3 }]
     };
   },
-  methods: {
-    add: function() {
-      this.list.push("string");
-    },
-    remove: function(index) {
-      this.list.splice(index, 1);
-    }
-  }
+  mounted() {
+    let webWork = new Worker();
+    webWork.onmessage = function(res) {
+      console.log(res.data);
+    };
+    webWork.postMessage({ a: 1 });
+    
+  },
+  methods: {}
 };
 </script>
 
@@ -76,9 +73,8 @@ a {
   color: red;
 }
 .bomb-leave-to {
-
 }
-.bomb-enter-active{
+.bomb-enter-active {
   transition: all 1s;
 }
 </style>

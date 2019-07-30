@@ -6,7 +6,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'build.js'
+    filename: 'build.js',
+    // globalObject: 'this'
   },
   module: {
     rules: [
@@ -16,7 +17,7 @@ module.exports = {
           'vue-style-loader',
           'css-loader'
         ],
-      },      {
+      }, {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
@@ -35,6 +36,15 @@ module.exports = {
         loader: 'file-loader',
         options: {
           name: '[name].[ext]?[hash]'
+        }
+      }, {
+        test: /\.worker\.js$/,
+        loader: 'worker-loader',
+        options: {
+          name: '[name]:[hash:8].js',
+          // inline: true, 
+          // fallback: false
+          // publicPath: '/scripts/workers/' 
         }
       }
     ]
